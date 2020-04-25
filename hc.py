@@ -5,7 +5,9 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.metrics import accuracy_score, adjusted_rand_score, silhouette_score
 from sklearn.metrics.cluster import contingency_matrix
-from dataset import S_Sets
+
+from dataset import S_Sets, Dim_Sets, Spiral, Jain, Flame
+from util import plot_silhouettes
 
 
 def calculate_accuracy(y_true, y_pred):
@@ -29,13 +31,20 @@ def calculate_accuracy(y_true, y_pred):
     return accuracy
 
 
-def perform_hierarchical_clustering(n, data, true_labels=None):
-    cluster = AgglomerativeClustering(n_clusters=n, affinity='euclidean', linkage='average')
+def perform_hierarchical_clustering(n, data, true_labels=None, plot=False):
+    cluster = AgglomerativeClustering(n_clusters=n, affinity='euclidean', linkage='ward')
     pred_labels = cluster.fit_predict(data)
+
+    silhouette_avg = silhouette_score(data, pred_labels)
+
+    if plot:
+        fig, (ax1, ax2) = plt.subplots(1, 2)
+        plot_silhouettes(data, pred_labels, n, ax1)
+
     if true_labels:
         label_map = np.argmax(contingency_matrix(true_labels, pred_labels), axis=1).tolist()
-        print(contingency_matrix(true_labels, pred_labels))
-        print("argmax ", np.argmax(contingency_matrix(true_labels, pred_labels), axis=1))
+        # print(contingency_matrix(true_labels_distinctels, pred_labels))
+        # print("argmax ", np.argmax(contingency_matrix(true_labels, pred_labels), axis=1))
 
         def map_labels(x):
             try:
@@ -48,7 +57,7 @@ def perform_hierarchical_clustering(n, data, true_labels=None):
         # print(mapped_pred_labels[:10])
         # com = [(true_labels[i], mapped_pred_labels[i]) for i in range(len(true_labels))]
         # print(com)
-        silhouette_avg = silhouette_score(X, cluster_labels)
+        
         print("The average silhouette_score is :", silhouette_avg)
         print("accuracy_score ", accuracy_score(true_labels, mapped_pred_labels))
         print("adjusted rand score ", adjusted_rand_score(true_labels, pred_labels))
@@ -56,24 +65,23 @@ def perform_hierarchical_clustering(n, data, true_labels=None):
         print("my acc ", accuracy)
         # accuracy = accuracy_score()
 
-    plt.scatter(data['x'], data['y'], c=pred_labels, cmap='viridis')
-
-    plt.show()    
+    if plot:
+        plt.scatter(data['x'], data['y'], c=pred_labels, cmap='viridis')
+        plt.show()    
 
 
 def main():
-    for i in range(1, 5):
-        s_sets = S_Sets()
-        data = s_sets.get_data(i)
-        # print(data)
+    # for i in range(1, 5):
+    data = Jain.get_data()
+    # print(data)
 
-        true_labels = s_sets.get_labels(i)
-        # print(data.describe())
-        # plt.figure()
-        # data.plot.scatter(x='x', y='y', marker='.', s=2)
-        # plt.show()
+    true_labels = Jain.get_labels()
+    # print(data.describe())
+    # plt.figure()
+    # data.plot.scatter(x='x', y='y', marker='.', s=2)
+    # plt.show()
 
-        perform_hierarchical_clustering(15, data, true_labels)
+    perform_hierarchical_clustering(2, data, true_labels, True)
 
 if __name__ == "__main__":
     main()

@@ -1,51 +1,104 @@
 import pandas as pd
 
 class S_Sets:
-    def __init__(self):
-        self.data = [
-            'data/s_sets/s1.txt',
-            'data/s_sets/s2.txt',
-            'data/s_sets/s3.txt',
-            'data/s_sets/s4.txt'
-        ]
-        self.labels = [
-            'data/s_sets/s1-label.pa',
-            'data/s_sets/s2-label.pa',
-            'data/s_sets/s3-label.pa',
-            'data/s_sets/s4-label.pa'
-        ]
+    data_paths = [
+        'data/s_sets/s1.txt',
+        'data/s_sets/s2.txt',
+        'data/s_sets/s3.txt',
+        'data/s_sets/s4.txt'
+    ]
 
-    def get_data(self, i):
-        data = pd.read_csv(self.data[i-1], sep="\s+", header=None)
+    label_paths = [
+        'data/s_sets/s1-label.pa',
+        'data/s_sets/s2-label.pa',
+        'data/s_sets/s3-label.pa',
+        'data/s_sets/s4-label.pa'
+    ]
+
+    @staticmethod
+    def get_data(i):
+        data = pd.read_csv(S_Sets.data_paths[i-1], sep="\s+", header=None)
         data.columns = ["x", "y"]
         return data
 
-    def get_labels(self, i):
-        read_labels = pd.read_csv(self.labels[i-1], header=None).to_numpy()
+    @staticmethod
+    def get_labels(i):
+        read_labels = pd.read_csv(S_Sets.label_paths[i-1], header=None).to_numpy()
         true_labels = [a[0] for a in read_labels]
         return true_labels
 
 class Dim_Sets:
-    def __init__(self):
-        self.data = [
-            'data/s_sets/s1.txt',
-            'data/s_sets/s2.txt',
-            'data/s_sets/s3.txt',
-            'data/s_sets/s4.txt'
+    data_paths = [
+        'data/dim/dim032.txt',
+        'data/dim/dim064.txt',
+        'data/dim/dim256.txt',
+        'data/dim/dim1024.txt'
         ]
-        self.labels = [
-            'data/s_sets/s1-label.pa',
-            'data/s_sets/s2-label.pa',
-            'data/s_sets/s3-label.pa',
-            'data/s_sets/s4-label.pa'
-        ]
+    label_paths = [
+        'data/dim/dim032.pa',
+        'data/dim/dim064.pa',
+        'data/dim/dim256.pa',
+        'data/dim/dim1024.pa'
+    ]
 
-    def get_data(self, i):
-        data = pd.read_csv(self.data[i-1], sep="\s+", header=None)
+    @staticmethod
+    def get_data(i):
+        data = pd.read_csv(Dim_Sets.data_paths[i-1], sep="\s+", header=None)
+        return data
+
+    @staticmethod
+    def get_labels(i):
+        read_labels = pd.read_csv(Dim_Sets.label_paths[i-1], header=None).to_numpy()
+        true_labels = [a[0] for a in read_labels]
+        return true_labels
+
+class Spiral:
+    data_path = 'data/spiral.txt'
+
+    @staticmethod
+    def get_data():
+        all_data = pd.read_csv(Spiral.data_path, sep="\s+", header=None)
+        data = all_data.iloc[:, 0:2]
         data.columns = ["x", "y"]
         return data
 
-    def get_labels(self, i):
-        read_labels = pd.read_csv(self.labels[i-1], header=None).to_numpy()
-        true_labels = [a[0] for a in read_labels]
+    @staticmethod
+    def get_labels():
+        all_data = pd.read_csv(Spiral.data_path, sep="\s+", header=None)
+        labels = all_data.iloc[:, 2:].to_numpy()
+        true_labels = [a[0] for a in labels]
+        return true_labels
+
+class Jain:
+    data_path = 'data/jain.txt'
+
+    @staticmethod
+    def get_data():
+        all_data = pd.read_csv(Jain.data_path, sep="\s+", header=None)
+        data = all_data.iloc[:, 0:2]
+        data.columns = ["x", "y"]
+        return data
+
+    @staticmethod
+    def get_labels():
+        all_data = pd.read_csv(Jain.data_path, sep="\s+", header=None)
+        labels = all_data.iloc[:, 2:].to_numpy()
+        true_labels = [a[0] for a in labels]
+        return true_labels
+
+class Flame:
+    data_path = 'data/flame.txt'
+
+    @staticmethod
+    def get_data():
+        all_data = pd.read_csv(Flame.data_path, sep="\s+", header=None)
+        data = all_data.iloc[:, 0:2]
+        data.columns = ["x", "y"]
+        return data
+
+    @staticmethod
+    def get_labels():
+        all_data = pd.read_csv(Flame.data_path, sep="\s+", header=None)
+        labels = all_data.iloc[:, 2:].to_numpy()
+        true_labels = [a[0] for a in labels]
         return true_labels
