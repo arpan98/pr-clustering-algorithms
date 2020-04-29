@@ -31,7 +31,7 @@ def plot_silhouettes(data, pred_labels, n, ax1):
         y_lower = y_upper + 10  # 10 for the 0 samples
 
     
-    ax1.set_title("The silhouette plot for the various clusters.")
+    ax1.set_title("Silhouette plot")
     ax1.set_xlabel("The silhouette coefficient values")
     ax1.set_ylabel("Cluster label")
 

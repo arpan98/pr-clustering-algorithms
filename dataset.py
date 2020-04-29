@@ -102,3 +102,24 @@ class Flame:
         labels = all_data.iloc[:, 2:].to_numpy()
         true_labels = [a[0] for a in labels]
         return true_labels
+
+class FIFA19:
+    data_path = 'data/fifa19.csv'
+
+    skills = ['Crossing', 'Finishing', 'HeadingAccuracy', 'ShortPassing',
+        'Volleys', 'Dribbling', 'Curve', 'FKAccuracy', 'LongPassing',
+        'BallControl', 'Acceleration', 'SprintSpeed', 'Agility', 'Reactions',
+        'Balance', 'ShotPower', 'Jumping', 'Stamina', 'Strength',
+        'LongShots', 'Aggression', 'Interceptions', 'Positioning',
+        'Vision', 'Penalties', 'Composure', 'Marking', 'StandingTackle',
+        'SlidingTackle', 'GKDiving', 'GKHandling', 'GKKicking',
+        'GKPositioning', 'GKReflexes']
+
+    @staticmethod
+    def get_data():
+        all_data = pd.read_csv(FIFA19.data_path)
+        # print(len(all_data.columns), all_data.columns)
+        skills_data = all_data[FIFA19.skills]
+        skills_data.dropna(inplace=True)
+        # print(len(skills_data.columns), skills_data)
+        return skills_data
